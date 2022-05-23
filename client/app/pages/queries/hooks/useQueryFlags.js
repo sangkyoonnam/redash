@@ -24,6 +24,7 @@ export default function useQueryFlags(query, dataSource = null) {
         (query.is_safe || (currentUser.hasPermission("execute_query") && !dataSource.view_only)),
       canFork: currentUser.hasPermission("edit_query") && !dataSource.view_only,
       canSchedule: currentUser.hasPermission("schedule_query"),
+      canRun: dataSource.view_only,
     }),
     [query, dataSource.view_only]
   );

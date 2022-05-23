@@ -177,7 +177,7 @@ export default function QueryPageHeader({
           </Button>
         )}
 
-        {!queryFlags.isNew && queryFlags.canViewSource && (
+        {!queryFlags.isNew && queryFlags.canViewSource && queryFlags.canRun && (
           <span>
             {!sourceMode && (
               <Link.Button className="m-r-5" href={query.getUrl(true, selectedVisualization)}>
@@ -197,7 +197,7 @@ export default function QueryPageHeader({
           </span>
         )}
 
-        {!queryFlags.isNew && (
+        {!queryFlags.isNew && queryFlags.canRun && (
           <Dropdown overlay={moreActionsMenu} trigger={["click"]}>
             <Button data-test="QueryPageHeaderMoreButton" aria-label="More actions">
               <EllipsisOutlinedIcon rotate={90} aria-hidden="true" />
