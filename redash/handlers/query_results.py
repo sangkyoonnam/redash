@@ -296,7 +296,8 @@ class QueryResultResource(BaseResource):
             models.Query.get_by_id_and_org, query_id, self.current_org
         )
 
-        allow_executing_with_view_only_permissions = query.parameterized.is_safe
+        # allow_executing_with_view_only_permissions = query.parameterized.is_safe
+        allow_executing_with_view_only_permissions = True
         should_apply_auto_limit = params.get("apply_auto_limit", False)
 
         if has_access(
