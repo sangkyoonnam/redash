@@ -296,29 +296,37 @@ class QueryResultResource(BaseResource):
             models.Query.get_by_id_and_org, query_id, self.current_org
         )
 
-        # allow_executing_with_view_only_permissions = query.parameterized.is_safe
-        allow_executing_with_view_only_permissions = True
+        allow_executing_with_view_only_permissions = query.parameterized.is_safe
         should_apply_auto_limit = params.get("apply_auto_limit", False)
 
-        if has_access(
-            query, self.current_user, allow_executing_with_view_only_permissions
-        ):
-            return run_query(
-                query.parameterized,
-                parameter_values,
-                query.data_source,
-                query_id,
-                should_apply_auto_limit,
-                max_age,
-            )
-        else:
-            if not query.parameterized.is_safe:
-                if current_user.is_api_user():
-                    return error_messages["unsafe_when_shared"]
-                else:
-                    return error_messages["unsafe_on_view_only"]
-            else:
-                return error_messages["no_permission"]
+        # if has_access(
+        #     query, self.current_user, allow_executing_with_view_only_permissions
+        # ):
+        #     return run_query(
+        #         query.parameterized,
+        #         parameter_values,
+        #         query.data_source,
+        #         query_id,
+        #         should_apply_auto_limit,
+        #         max_age,
+        #     )
+        # else:
+        #     if not query.parameterized.is_safe:
+        #         if current_user.is_api_user():
+        #             return error_messages["unsafe_when_shared"]
+        #         else:
+        #             return error_messages["unsafe_on_view_only"]
+        #     else:
+        #         return error_messages["no_permission"]
+
+        return run_query(
+            query.parameterized,
+            parameter_values,
+            query.data_source,
+            query_id,
+            should_apply_auto_limit,
+            max_age,
+        )
 
     @require_any_of_permission(("view_query", "execute_query"))
     def get(self, query_id=None, query_result_id=None, filetype="json"):
